@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <title>
+    Local weather
+    </title>
+    <style type="text/css">
+    	body{
+  background-image: url('http://blavity.blavity.netdna-cdn.com/wp-content/uploads/2016/01/Wikipedia-696x392.jpg?857868');
+ 
+  color:rgb(0,0,0);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  
+}
+.heading{
+  border-radius:25px;
+  margin:1%;
+  padding:1%;
+  display:inline-block;
+  font-family:'Lobster';
+}
+.heading img{
+  background-color:#0099cc;
+  border-radius:25px;
+  display:inline-block;
+  font-family:'Lobster';
+  width:50%;
+}
+a { color: inherit; 
+} 
+h2{
+  color:black;
+  padding-left:1%;
+  padding-top:1%;
+}
+p{
+  padding-bottom: 1%;
+  padding-left:1%;
+  font-size:25px;
+}
+div{
+  border-radius:25px;
+}
+
+button{
+margin:1%;
+}
+#output{
+ margin-top:1%;
+  border-radius:25px;
+  font-family:'Lobster';
+}
+h2{
+  font-family:Times New Roman;
+}
+    </style>
+    </head>
+    <body>
+    <input class="form-control" id="searchTerm">
+  <button id='search' type="button" class ="btn btn-primary">Submit</button><br>
+  <div id ="output"></div>
+    </body>
+    <script type="text/javascript">
+
+    	$(document).ready(function(){
+
+    		 $("#search").click(function(){
+
+    		var searchTerm = $('#searchTerm').val();
+    		var url = "https://en.wikipedia.org/w/api.php?action=opensearch&search="+ searchTerm +"&format=json&callback=?";
+
+    	$.ajax({
+        type: "GET",
+        url: url,
+        contentType: "application/json; charset=utf-8",
+        async: false,
+        dataType: "json",
+        success: function (data, textStatus, jqXHR) {
+        console.log(data);
+          $('#output').html('');
+          for(var i=0;i<data[1].length;i++){
+            $('#output').prepend("<div><div class='btn-primary'><a href="+data[3][i]+"><h2>" + data[1][i]+ "</h2>" + "<p>" + data[2][i] + "</p></a></div></div>" );        
+          }    
+   			$("#searchTerm").val('');
+      	  },
+       	 error: function (errorMessage) {
+         console.log(errorMessage);
+       	 }
+    	});
+    
+
+  
+      $("#searchTerm").keypress(function(e){
+      if(e.which==13){
+        $("#search").click();
+      }
+    });
+			});
+
+    		});
+    </script>
+    </html>
